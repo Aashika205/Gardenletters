@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>DailyBudget — Personal Finance Tracker</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--tx:#0f1b3d;--mu:#5d6b88;--pr:#12306b;--g:#12a150;--r:#d92d20;--w:#d98a00;--b:#e1e6f0}
@@ -28,9 +27,7 @@ dialog{border:1px solid var(--b);border-radius:12px;background:var(--card);color
 </style></head><body>
 <div id="toast" role="status"></div><div id="app"></div>
 <script>
-/* ===== CONFIG: paste your Supabase project URL and PUBLIC (publishable/anon) key. Never the service-role key. ===== */
-const CFG={url:'YOUR_SUPABASE_URL',key:'YOUR_SUPABASE_PUBLISHABLE_KEY'};
-const sb=supabase.createClient(CFG.url,CFG.key);
+/* No account needed: data is stored in this browser (localStorage). */
 const EXP=['Rent or mortgage','Groceries','Restaurants','Transportation','Fuel','Utilities','Phone and internet','Healthcare','Education','Shopping','Family expenses','Insurance','Debt payments','Subscriptions','Entertainment','Other expenses'];
 const INC=['Salary','Business income','Freelance','Gifts','Refunds','Other income'];
 const PAY=['Cash','Debit card','Credit card','Bank transfer','Other'];
@@ -62,18 +59,24 @@ function form(title,fields,v,cb){
     const er=await cb(o);if(er)d.querySelector('.err').textContent=er;else{d.close();d.remove()}}}
 
 /* ---------- data layer (RLS enforces ownership server-side) ---------- */
-async function load(){
-  const q=t=>sb.from(t).select('*');
-  const R=await Promise.all([q('transactions').order('tx_date',{ascending:false}),q('budgets'),q('bills').order('due_date'),q('goals'),q('preferences').maybeSingle()]);
-  if(R.some(r=>r.error)){toast('Could not load your data. Check your connection and setup.',1);return false}
-  [S.tx,S.budgets,S.bills,S.goals]=R.slice(0,4).map(r=>r.data);
-  if(R[4].data)S.prefs=R[4].data;return true}
-async function save(table,vals,id){
-  const r=id?await sb.from(table).update(vals).eq('id',id):await sb.from(table).insert({...vals,user_id:S.user.id});
-  if(r.error)return r.error.code==='23505'?'That record already exists.':'Could not save. Please check your input and try again.';
-  toast('Saved');await load();render();return null}
+const KEY='dailybudget_data_v1',T={transactions:'tx',budgets:'budgets',bills:'bills',goals:'goals'};
+const uid=()=>crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(16).slice(2);
+const sortAll=()=>{S.tx.sort((a,b)=>a.tx_date<b.tx_date?1:-1);S.bills.sort((a,b)=>a.due_date<b.due_date?-1:1)};
+function persist(){try{localStorage.setItem(KEY,JSON.stringify({tx:S.tx,budgets:S.budgets,bills:S.bills,goals:S.goals,prefs:S.prefs}));return true}catch(e){toast('Could not save: browser storage is full or blocked.',1);return false}}
+function adopt(d){const A=x=>Array.isArray(x)?x.filter(o=>o&&typeof o==='object'):[],N=v=>Number.isFinite(Number(v));
+  S.tx=A(d.tx).filter(x=>(x.type==='income'||x.type==='expense')&&N(x.amount)&&Number(x.amount)>0&&valDate(String(x.tx_date))&&typeof x.category==='string').map(x=>({...x,amount:Number(x.amount),id:x.id||uid()}));
+  S.budgets=A(d.budgets).filter(b=>/^\d{4}-\d{2}$/.test(b.month)&&N(b.amount)&&typeof b.category==='string').map(b=>({...b,amount:Number(b.amount),id:b.id||uid()}));
+  S.bills=A(d.bills).filter(b=>typeof b.name==='string'&&N(b.amount)&&valDate(String(b.due_date))).map(b=>({kind:'Other',recurrence:'none',status:'pending',...b,amount:Number(b.amount),id:b.id||uid()}));
+  S.goals=A(d.goals).filter(g=>typeof g.name==='string'&&Number(g.target_amount)>0).map(g=>({...g,target_amount:Number(g.target_amount),saved_amount:Number(g.saved_amount)||0,id:g.id||uid()}));
+  const p=d.prefs||{};S.prefs={currency:CUR.includes(p.currency)?p.currency:'USD',daily_limit:Math.max(0,Number(p.daily_limit)||0),rollover:!!p.rollover};sortAll()}
+async function load(){try{adopt(JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){toast('Saved data could not be read.',1)}return true}
+async function save(table,vals,id){const a=S[T[table]];
+  if(table==='budgets'){const mo=id?a.find(x=>x.id===id).month:S.bm;if(a.some(b=>b.id!==id&&b.month===mo&&b.category===vals.category))return'That category already has a budget this month.'}
+  const now=new Date().toISOString();
+  if(id){const i=a.findIndex(x=>x.id===id);a[i]={...a[i],...vals,updated_at:now}}else a.push({...vals,id:uid(),created_at:now,updated_at:now});
+  sortAll();if(!persist())return'Could not save.';toast('Saved');render();return null}
 async function del(table,id){if(!confirm('Delete this record? This cannot be undone.'))return;
-  const r=await sb.from(table).delete().eq('id',id);if(r.error)return toast('Could not delete.',1);toast('Deleted');await load();render()}
+  S[T[table]]=S[T[table]].filter(x=>x.id!==id);persist();toast('Deleted');render()}
 
 /* ---------- calculations ---------- */
 const exp=a=>a.filter(x=>x.type==='expense'),inc=a=>a.filter(x=>x.type==='income');
@@ -138,10 +141,10 @@ function bills(){const t=today(),g=(f)=>S.bills.filter(f);
   return`<div class="row sp"><h2>Bills</h2><button data-act="addbill">+ Add bill</button></div>${sec('Overdue',g(b=>b.status==='pending'&&b.due_date<t))}${sec('Upcoming',g(b=>b.status==='pending'&&b.due_date>=t))}${sec('Paid',g(b=>b.status==='paid'))}<p class="mu">Marking a bill paid can record one linked expense (never automatic). Credit-card bills don’t create an expense, so purchases aren’t counted twice.</p>`}
 async function pay(b){
   if(KIND[b.kind]!==null&&confirm(`Also record ${money(b.amount)} as an expense dated today?`)){
-    const r=await sb.from('transactions').insert({user_id:S.user.id,type:'expense',amount:b.amount,currency:S.prefs.currency,tx_date:today(),category:KIND[b.kind]||'Other expenses',description:b.name,payment_method:'Other',essential:true,bill_id:b.id});
-    if(r.error)return toast(r.error.code==='23505'?'Already recorded today.':'Could not record the expense.',1)}
-  const r=await sb.from('bills').update(b.recurrence!=='none'?{due_date:nextDue(b.due_date,b.recurrence),status:'pending'}:{status:'paid'}).eq('id',b.id);
-  if(r.error)return toast('Could not update the bill.',1);toast('Bill updated');await load();render()}
+    if(S.tx.some(x=>x.bill_id===b.id&&x.tx_date===today()))return toast('Already recorded today.',1);
+    S.tx.push({id:uid(),type:'expense',amount:Number(b.amount),currency:S.prefs.currency,tx_date:today(),category:KIND[b.kind]||'Other expenses',description:b.name,payment_method:'Other',essential:true,bill_id:b.id})}
+  const i=S.bills.findIndex(x=>x.id===b.id);Object.assign(S.bills[i],b.recurrence!=='none'?{due_date:nextDue(b.due_date,b.recurrence),status:'pending'}:{status:'paid'});
+  sortAll();persist();toast('Bill updated');render()}
 function billForm(x={}){form(x.id?'Edit bill':'Add bill',[{k:'name',l:'Name',t:'text',req:1},{k:'kind',l:'Type',t:'select',o:Object.keys(KIND)},{k:'amount',l:'Amount',t:'number',req:1,pos:1},{k:'due_date',l:'Due date',t:'date',req:1},{k:'recurrence',l:'Recurrence',t:'select',o:['none','weekly','monthly','annually']},{k:'status',l:'Status',t:'select',o:['pending','paid']},{k:'notes',l:'Notes',t:'text'}],{kind:'Rent',recurrence:'monthly',status:'pending',due_date:today(),...x},v=>save('bills',v,x.id))}
 function goals(){return`<div class="row sp"><h2>Savings goals</h2><button data-act="addgoal">+ Add goal</button></div><p class="mu">Goals are amounts you track yourself. They are not verified by any bank and are not subtracted from your cash balance.</p>
 ${S.goals.length?`<div class="grid2">${S.goals.map(g=>{const p=g.target_amount>0?g.saved_amount/g.target_amount*100:0;return`<div class="card"><h3>${esc(g.name)}</h3><p class="mu">${esc(g.description||'')}</p>${bar(Math.min(100,p))}<p><b>${p.toFixed(0)}%</b> · saved ${money(g.saved_amount)} of ${money(g.target_amount)} · left ${money(Math.max(0,g.target_amount-g.saved_amount))}${g.target_date?` · by ${esc(g.target_date)}`:''}</p><div class="row"><button class="sm" data-act="fund" data-id="${g.id}">Add funds</button><button class="sm sec" data-act="edgoal" data-id="${g.id}">Edit</button><button class="sm dng" data-act="delgoal" data-id="${g.id}">Delete</button></div></div>`}).join('')}</div>`:empty('No goals yet. Try “Emergency fund”.')}`}
@@ -163,16 +166,15 @@ const cell=v=>{let s=String(v??'');if(/^[=+\-@\t\r]/.test(s))s="'"+s;return'"'+s
 function csv(rows,name){const h=['date','type','category','amount','currency','description','payment_method','essential','notes'];
   const t=[h.join(','),...rows.map(x=>[x.tx_date,x.type,x.category,x.amount,x.currency,x.description,x.payment_method,x.essential?'yes':'no',x.notes].map(cell).join(','))].join('\r\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function settings(){return`<h2>Settings</h2><div class="card"><p><b>Account:</b> ${esc(S.user.email)}</p><label>Currency<select id="cur">${CUR.map(c=>`<option ${c===S.prefs.currency?'selected':''}>${c}</option>`).join('')}</select></label>
-<p class="row"><button data-act="daily" class="sec">Daily limit &amp; rollover</button><button data-act="theme" class="sec">Toggle light/dark</button><button data-act="csva" class="sec">Export all transactions (CSV)</button><button data-act="out">Log out</button></p></div>
-<div class="card"><h3>Delete account</h3><p class="mu">Permanently deletes your account and all your data. Export a CSV first.</p><button class="dng" data-act="delacct">Delete my account</button></div>
-<p class="mu">Privacy: your data is stored in your private Supabase database and protected by row-level security. It is never sent to AI services.</p>`}
+function settings(){return`<h2>Settings</h2><div class="card"><p class="mu">No account needed. Your data is stored only in this browser on this device. Clearing browser data erases it, so download a backup regularly.</p><label>Currency<select id="cur">${CUR.map(c=>`<option ${c===S.prefs.currency?'selected':''}>${c}</option>`).join('')}</select></label>
+<p class="row"><button data-act="daily" class="sec">Daily limit &amp; rollover</button><button data-act="theme" class="sec">Toggle light/dark</button></p></div>
+<div class="card"><h3>Backup</h3><p class="row"><button data-act="bak">Download backup (JSON)</button><button data-act="csva" class="sec">Export transactions (CSV)</button></p><label>Restore from a backup file<input type="file" id="rs" accept="application/json,.json"></label></div>
+<div class="card"><h3>Clear data</h3><button class="dng" data-act="clr">Delete all my data</button></div>`}
 function dailyForm(){form('Daily budget',[{k:'daily_limit',l:'Daily spending limit',t:'number'},{k:'rollover',l:'Roll over unused budget?',t:'select',o:['no','yes']}],{daily_limit:S.prefs.daily_limit,rollover:S.prefs.rollover?'yes':'no'},
-  async v=>{const r=await sb.from('preferences').upsert({user_id:S.user.id,currency:S.prefs.currency,daily_limit:v.daily_limit||0,rollover:v.rollover==='yes'});if(r.error)return'Could not save.';toast('Saved');await load();render()})}
-
+  async v=>{S.prefs.daily_limit=v.daily_limit||0;S.prefs.rollover=v.rollover==='yes';persist();toast('Saved');render()})}
 /* ---------- shell, events ---------- */
 const TABS=[['dashboard','Dashboard'],['transactions','Transactions'],['budgets','Budgets'],['bills','Bills'],['goals','Goals'],['reports','Reports'],['settings','Settings']];
-function render(){if(!S.user)return;const V={dashboard,transactions,budgets,bills,goals,reports,settings};
+function render(){const V={dashboard,transactions,budgets,bills,goals,reports,settings};
   $('#app').innerHTML=`<div class="shell"><nav aria-label="Main"><div class="brand row">${logo}<b>DailyBudget</b></div>${TABS.map(([k,l])=>`<button class="${S.tab===k?'on':''}" data-act="nav" data-t="${k}">${l}</button>`).join('')}</nav><main>${V[S.tab]()}</main></div>`;
   setTimeout(()=>({dashboard:dashCharts,reports:repCharts})[S.tab]?.())}
 const find=(a,id)=>S[a].find(x=>x.id===id);
@@ -183,31 +185,17 @@ const H={nav:b=>{S.tab=b.dataset.t;render()},addtx:()=>txForm(),edtx:b=>txForm(f
   fund:b=>{const g=find('goals',b.dataset.id);form('Add funds to '+g.name,[{k:'a',l:'Amount to add',t:'number',req:1,pos:1}],{},v=>save('goals',{saved_amount:Math.round((Number(g.saved_amount)+v.a)*100)/100},g.id))},
   theme:()=>{const t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;localStorage.setItem('db_theme',t)},
   csvr:()=>csv(S.tx.filter(x=>x.tx_date>=S.r.from&&x.tx_date<=S.r.to),'dailybudget-report.csv'),csva:()=>csv(S.tx,'dailybudget-all.csv'),
-  out:()=>sb.auth.signOut(),
-  delacct:async()=>{if(!confirm('Permanently delete your account and ALL data?')||prompt('Type DELETE to confirm')!=='DELETE')return;const r=await sb.rpc('delete_my_account');if(r.error)return toast('Could not delete the account.',1);await sb.auth.signOut();toast('Account deleted')}};
+  bak:()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({tx:S.tx,budgets:S.budgets,bills:S.bills,goals:S.goals,prefs:S.prefs},null,1)],{type:'application/json'}));a.download='dailybudget-backup-'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)},
+  clr:()=>{if(!confirm('Permanently delete ALL data stored in this browser?')||prompt('Type DELETE to confirm')!=='DELETE')return;localStorage.removeItem(KEY);adopt({});toast('All data cleared');render()}};
 function budForm(x={}){form(x.id?'Edit budget':'Add category budget',[{k:'category',l:'Category',t:'select',o:EXP},{k:'amount',l:'Monthly limit',t:'number',req:1,pos:1}],x,v=>save('budgets',x.id?{category:v.category,amount:v.amount}:{...v,month:S.bm},x.id))}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)H[b.dataset.act]?.(b)});
 document.addEventListener('change',async e=>{const i=e.target.id;
-  if(i==='cur'){const r=await sb.from('preferences').upsert({user_id:S.user.id,currency:e.target.value,daily_limit:S.prefs.daily_limit||0,rollover:!!S.prefs.rollover});if(r.error)return toast('Could not save.',1);await load();render()}
+  if(i==='cur'){S.prefs.currency=e.target.value;persist();render()}
+  if(i==='rs'){const f=e.target.files[0];if(!f||f.size>5e6)return toast('Choose a backup file under 5 MB.',1);if(!confirm('Replace current data with this backup?'))return;try{adopt(JSON.parse(await f.text()));persist();toast('Backup restored');render()}catch(x){toast('That file is not a valid backup.',1)}}
   if(i==='bm'&&/^\d{4}-\d{2}$/.test(e.target.value)){S.bm=e.target.value;render()}
   if(i==='rf'||i==='rt'){const k=i==='rf'?'from':'to';if(valDate(e.target.value))S.r[k]=e.target.value;render()}
   if({ft:'type',ff:'from',fo:'to',fs:'sort'}[i]){S.f[{ft:'type',ff:'from',fo:'to',fs:'sort'}[i]]=e.target.value;$('#txl').innerHTML=listHTML()}});
 document.addEventListener('input',e=>{if(e.target.id==='fq'){S.f.q=e.target.value;$('#txl').innerHTML=listHTML()}});
 
-/* ---------- auth ---------- */
-function authView(msg){$('#app').innerHTML=`<div class="land"><div class="row">${logo}<h1>DailyBudget</h1></div><h2>Know what you can spend today.</h2><p>A simple, private budgeting dashboard. Enter your income and expenses by hand, set a daily limit, track bills and savings goals.</p>
-<ul><li>Daily &amp; monthly category budgets with warnings</li><li>Bills, savings goals, charts and CSV export</li><li>Your data is private to your account</li></ul>
-<form id="af" class="card"><h3>Log in or sign up</h3><label>Email<input type="email" id="em" required autocomplete="email"></label><label>Password (8+ characters)<input type="password" id="pw" minlength="8" autocomplete="current-password"></label><p class="err" role="alert">${esc(msg||'')}</p>
-<div class="row"><button type="submit">Log in</button><button type="button" class="sec" id="su">Sign up</button><button type="button" class="sec" id="fp">Forgot password</button></div></form>
-<p class="mu"><b>Privacy &amp; security:</b> Accounts and data use Supabase Auth and a Postgres database with row-level security. We never ask for bank passwords or card numbers, and your data is never sent to AI services. This website’s source code is public.</p></div>`;
-  const err=t=>$('.err').textContent=t,em=()=>$('#em').value.trim(),pw=()=>$('#pw').value;
-  $('#af').onsubmit=async e=>{e.preventDefault();const r=await sb.auth.signInWithPassword({email:em(),password:pw()});if(r.error)err('Login failed. Check your email and password (and confirm your email if required).')};
-  $('#su').onclick=async()=>{if(!em()||pw().length<8)return err('Enter an email and a password of at least 8 characters.');const r=await sb.auth.signUp({email:em(),password:pw(),options:{emailRedirectTo:location.origin+location.pathname}});
-    err(r.error?'Sign-up failed. Try a different email or a stronger password.':'Account created. If email confirmation is on, check your inbox, then log in.')};
-  $('#fp').onclick=async()=>{if(!em())return err('Enter your email first.');await sb.auth.resetPasswordForEmail(em(),{redirectTo:location.origin+location.pathname});err('If that email has an account, a reset link was sent.')}}
-function resetView(){$('#app').innerHTML=`<div class="land"><form id="rf2" class="card"><h3>Choose a new password</h3><label>New password<input type="password" id="np" minlength="8" required autocomplete="new-password"></label><p class="err" role="alert"></p><button>Update password</button></form></div>`;
-  $('#rf2').onsubmit=async e=>{e.preventDefault();const r=await sb.auth.updateUser({password:$('#np').value});if(r.error)return $('.err').textContent='Could not update the password.';toast('Password updated');history.replaceState(null,'',location.pathname);S.user=(await sb.auth.getUser()).data.user;boot()}}
-async function boot(){if(await load())render();else $('#app').innerHTML='<div class="land"><h2>Setup needed</h2><p>Could not load data. Make sure you ran supabase_setup.sql and set the URL and key in index.html.</p><button data-act="out">Log out</button></div>'}
-sb.auth.onAuthStateChange((ev,s)=>{if(ev==='PASSWORD_RECOVERY')return resetView();S.user=s?.user||null;
-  if(S.user)setTimeout(boot);else{Object.assign(S,{tx:[],budgets:[],bills:[],goals:[],tab:'dashboard'});authView(ev==='SIGNED_OUT'?'':'')}});
+load().then(render);
 </script></body></html>
