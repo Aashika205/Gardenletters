@@ -1,1176 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!--
-  ============================================================================
-  PSU STUDENT PORTFOLIO — SINGLE FILE TEMPLATE
-  ============================================================================
-  This entire website (HTML + CSS + JavaScript) lives in this one file.
-  It needs NO build step, NO framework, and NO server. Upload it to a GitHub
-  repository, enable GitHub Pages, and it works immediately.
-
-  HOW TO USE THIS FILE
-  --------------------
-  1. Search for "EDIT THIS" comments — every one marks something you should
-     personalize (name, bio, links, projects, etc).
-  2. Anything in [SQUARE BRACKETS] in the visible text is placeholder content.
-     Replace it with your real information.
-  3. To remove a section you don't need (e.g. Research, Publications), delete
-     the whole <section id="..."> ... </section> block AND its matching
-     <li><a href="#...">...</a></li> line in the navigation near the top.
-     The navigation bar will also auto-hide a link if it can't find a
-     matching section on the page, so you don't have to be perfect about it.
-  4. Put your images and resume in an "assets" folder next to this file:
-       assets/profile.jpg
-       assets/resume.pdf
-       assets/project-1.jpg  (etc.)
-     If an image is missing, a clean placeholder is shown automatically —
-     the site will never show a broken-image icon.
-
-  See the bottom of this file for the full publishing instructions.
-  ============================================================================
--->
-
-<!-- ======================== SEO / METADATA — EDIT THIS ======================== -->
-<title>Aashika Purja — Bachelor in Business Administration Student at Pacific States University</title>
-<meta name="description" content="Personal portfolio of Aashika, a Bachelor in Business Administration student at Pacific States University based in Los Angeles, CA. Explore projects, experience, and research.">
-<meta name="author" content="Aashika">
-<link rel="canonical" href="https://Aashika205.github.io/">
-
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="Aashika — Bachelor of Business Administration Student">
-<meta property="og:description" content="Personal academic and professional portfolio of Aashika, Bachelor of Business Administration  at Pacific States University.">
-<meta property="og:image" content="assets/profile.jpg">
-<meta property="og:url" content="https://Aashika205.github.io/">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Aashika — Bachelor of Business Administration  Student">
-<meta name="twitter:description" content="Personal academic and professional portfolio of Aashika, Pacific States University.">
-<meta name="twitter:image" content="assets/profile.jpg">
-
-<!-- Favicon (optional — replace with assets/favicon.png if you have one) -->
-<link rel="icon" href="data:,">
-
-<!-- Fonts: Newsreader (serif, headings) + IBM Plex Sans (body / UI) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DailyBudget</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2312284c'/%3E%3Cpath d='M8 20l5-5 4 4 7-8' stroke='%2334d399' stroke-width='3' fill='none'/%3E%3C/svg%3E">
 <style>
-/* ============================================================================
-   1. CSS VARIABLES / THEME
-   ============================================================================ */
-:root{
-  color-scheme: light;
-  --bg: #F9F8F4;
-  --bg-raised: #F1EFE6;
-  --bg-card: #FCFBF8;
-  --ink: #1C2321;
-  --ink-soft: #52584F;
-  --ink-faint: #83887D;
-  --primary: #234E52;
-  --primary-strong: #163538;
-  --accent: #9C6B30;
-  --accent-soft: #E4D2B4;
-  --line: #DEDACB;
-  --line-strong: #C8C2AC;
-  --focus: #1C63C4;
-  --shadow: 0 1px 2px rgba(28,35,33,0.06);
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --maxw-prose: 720px;
-  --maxw-wide: 1120px;
-  --nav-h: 68px;
-  --font-serif: "Newsreader", "Iowan Old Style", Georgia, serif;
-  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-html[data-theme="dark"]{
-  color-scheme: dark;
-  --bg: #14181A;
-  --bg-raised: #1A201F;
-  --bg-card: #191F1D;
-  --ink: #EEEBE3;
-  --ink-soft: #B7BFB6;
-  --ink-faint: #808A80;
-  --primary: #8BC0B6;
-  --primary-strong: #A9D3CA;
-  --accent: #D7AC6E;
-  --accent-soft: #3A3122;
-  --line: #2B322E;
-  --line-strong: #3A4239;
-  --focus: #7FB2E8;
-  --shadow: 0 1px 3px rgba(0,0,0,0.4);
-}
-
-/* ============================================================================
-   2. RESET
-   ============================================================================ */
-*, *::before, *::after{ box-sizing: border-box; }
-html{ scroll-behavior: smooth; }
-body{
-  margin:0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  transition: background-color .25s ease, color .25s ease;
-}
-img{ max-width:100%; display:block; }
-a{ color: var(--primary); text-decoration: none; }
-a:hover{ text-decoration: underline; }
-ul{ margin:0; padding:0; list-style:none; }
-h1,h2,h3,h4{ font-family: var(--font-serif); font-weight:500; color: var(--ink); margin:0; }
-button{ font-family: inherit; }
-
-:focus-visible{
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
-@media (prefers-reduced-motion: reduce){
-  html{ scroll-behavior:auto; }
-  *, *::before, *::after{
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-}
-
-.visually-hidden{
-  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
-}
-
-.skip-link{
-  position:absolute; left:1rem; top:-3rem;
-  background: var(--primary); color:#fff;
-  padding:.6rem 1rem; border-radius: var(--radius-sm);
-  z-index: 1000; transition: top .2s ease;
-}
-.skip-link:focus{ top: 1rem; }
-
-/* ============================================================================
-   3. LAYOUT PRIMITIVES
-   ============================================================================ */
-.wrap{ max-width: var(--maxw-wide); margin:0 auto; padding: 0 1.5rem; }
-.prose{ max-width: var(--maxw-prose); }
-
-.section{ padding: 5.5rem 0; border-top: 1px solid var(--line); }
-.section:first-of-type{ border-top:none; }
-.section--tint{ background: var(--bg-raised); }
-
-.section-head{ margin-bottom: 2.75rem; }
-.section-kicker{
-  display:block; font-size: .8125rem; color: var(--accent);
-  font-weight:600; letter-spacing:.02em; margin-bottom:.5rem;
-}
-.section-title{ font-size: clamp(1.7rem, 2.2vw + 1rem, 2.35rem); }
-.section-title span{ color: var(--primary); }
-.section-rule{
-  width: 46px; height: 3px; background: var(--accent);
-  border: none; margin: 1.1rem 0 0; border-radius: 2px;
-}
-.section-intro{ color: var(--ink-soft); margin-top: 1rem; max-width: 62ch; }
-
-/* Buttons */
-.btn{
-  display:inline-flex; align-items:center; gap:.5rem;
-  padding: .75rem 1.35rem; border-radius: var(--radius-sm);
-  font-weight:600; font-size:.95rem; cursor:pointer;
-  border: 1px solid transparent; transition: background-color .15s ease, border-color .15s ease, color .15s ease;
-}
-.btn svg{ width:16px; height:16px; flex-shrink:0; }
-.btn-primary{ background: var(--primary); color:#fff; border-color: var(--primary); }
-.btn-primary:hover{ background: var(--primary-strong); border-color: var(--primary-strong); text-decoration:none; }
-.btn-ghost{ background: transparent; color: var(--ink); border-color: var(--line-strong); }
-.btn-ghost:hover{ background: var(--bg-raised); text-decoration:none; }
-.btn-sm{ padding:.5rem 1rem; font-size:.85rem; }
-
-/* Tag / badge */
-.tag{
-  display:inline-flex; align-items:center;
-  font-size:.8rem; color: var(--ink-soft);
-  border:1px solid var(--line-strong); border-radius: var(--radius-sm);
-  padding:.28rem .6rem; background: var(--bg-card);
-}
-
-/* Card */
-.card{
-  background: var(--bg-card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  padding: 1.6rem;
-  transition: border-color .15s ease, transform .15s ease;
-}
-.card:hover{ border-color: var(--line-strong); }
-
-/* Grids */
-.grid{ display:grid; gap: 1.5rem; }
-.grid-2{ grid-template-columns: repeat(2, 1fr); }
-.grid-3{ grid-template-columns: repeat(3, 1fr); }
-@media (max-width: 900px){
-  .grid-2, .grid-3{ grid-template-columns: 1fr; }
-}
-
-/* ============================================================================
-   4. NAVIGATION
-   ============================================================================ */
-.nav{
-  position: sticky; top:0; z-index: 500;
-  height: var(--nav-h);
-  display:flex; align-items:center;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-}
-.nav .wrap{ display:flex; align-items:center; justify-content:space-between; width:100%; }
-.nav-brand{ font-family: var(--font-serif); font-size:1.15rem; color: var(--ink); }
-.nav-brand:hover{ text-decoration:none; }
-.nav-brand strong{ color: var(--primary); }
-
-.nav-links{ display:flex; align-items:center; gap: 1.75rem; }
-.nav-links a{
-  color: var(--ink-soft); font-size:.92rem; font-weight:500;
-  padding: .4rem 0; border-bottom: 2px solid transparent;
-}
-.nav-links a:hover, .nav-links a.active{
-  color: var(--ink); text-decoration:none; border-bottom-color: var(--accent);
-}
-
-.nav-actions{ display:flex; align-items:center; gap:.6rem; }
-
-.theme-toggle{
-  width:38px; height:38px; border-radius: 50%;
-  border:1px solid var(--line-strong); background: var(--bg-card);
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  color: var(--ink);
-}
-.theme-toggle svg{ width:18px; height:18px; }
-.theme-toggle .icon-sun{ display:none; }
-html[data-theme="dark"] .theme-toggle .icon-moon{ display:none; }
-html[data-theme="dark"] .theme-toggle .icon-sun{ display:block; }
-
-.nav-toggle{
-  display:none; width:38px; height:38px; border-radius: var(--radius-sm);
-  border:1px solid var(--line-strong); background: var(--bg-card);
-  align-items:center; justify-content:center; cursor:pointer; color: var(--ink);
-}
-.nav-toggle svg{ width:20px; height:20px; }
-
-@media (max-width: 860px){
-  .nav-links{
-    position:fixed; inset: var(--nav-h) 0 0 0;
-    background: var(--bg);
-    flex-direction:column; align-items:flex-start; gap:0;
-    padding: 1rem 1.5rem 2rem;
-    transform: translateY(-8px);
-    opacity:0; visibility:hidden; pointer-events:none;
-    transition: opacity .18s ease, transform .18s ease, visibility .18s;
-    overflow-y:auto;
-  }
-  .nav-links.is-open{
-    opacity:1; visibility:visible; pointer-events:auto; transform: translateY(0);
-  }
-  .nav-links a{ width:100%; padding: .9rem 0; border-bottom:1px solid var(--line); }
-  .nav-toggle{ display:flex; }
-}
-
-/* ============================================================================
-   5. HERO
-   ============================================================================ */
-.hero{ padding: 4.5rem 0 5.5rem; }
-.hero .wrap{
-  display:grid; grid-template-columns: 1.15fr .85fr; gap: 3rem; align-items:center;
-}
-.hero-eyebrow{ color: var(--accent); font-weight:600; font-size:.85rem; }
-.hero-name{
-  font-size: clamp(2.3rem, 4.2vw + 1rem, 3.4rem);
-  line-height:1.08; margin-top:.6rem;
-}
-.hero-role{
-  margin-top: .9rem; font-size: 1.15rem; color: var(--ink-soft); font-weight:500;
-  max-width: 46ch;
-}
-.hero-blurb{ margin-top: 1.1rem; color: var(--ink-soft); max-width: 52ch; }
-
-.hero-meta{ display:flex; flex-wrap:wrap; gap: .55rem 1.2rem; margin-top: 1.4rem; }
-.hero-meta li{ display:flex; align-items:center; gap:.4rem; font-size:.9rem; color: var(--ink-soft); }
-.hero-meta svg{ width:16px; height:16px; color: var(--primary); flex-shrink:0; }
-
-.hero-cta{ display:flex; flex-wrap:wrap; gap: .8rem; margin-top: 2rem; }
-
-.hero-photo-wrap{ position:relative; justify-self:center; }
-.hero-photo{
-  width: 260px; height: 260px; border-radius: 50%;
-  object-fit: cover; border: 6px solid var(--bg-card);
-  box-shadow: var(--shadow);
-  background: var(--bg-raised);
-}
-.hero-photo-fallback{
-  width:260px; height:260px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  background: linear-gradient(160deg, var(--primary), var(--primary-strong));
-  color:#fff; font-family: var(--font-serif); font-size: 4rem;
-  border: 6px solid var(--bg-card); box-shadow: var(--shadow);
-}
-
-@media (max-width: 860px){
-  .hero .wrap{ grid-template-columns: 1fr; text-align:left; }
-  .hero-photo-wrap{ justify-self:flex-start; }
-  .hero-photo, .hero-photo-fallback{ width:150px; height:150px; font-size:2.5rem; }
-}
-
-/* Single orchestrated entrance animation, hero only */
-.hero-animate > *{
-  opacity:0; transform: translateY(10px);
-  animation: hero-in .7s ease forwards;
-}
-.hero-animate > *:nth-child(1){ animation-delay: .03s; }
-.hero-animate > *:nth-child(2){ animation-delay: .12s; }
-.hero-animate > *:nth-child(3){ animation-delay: .21s; }
-@keyframes hero-in{ to{ opacity:1; transform:none; } }
-
-/* ============================================================================
-   6. ABOUT
-   ============================================================================ */
-.about-grid{ display:grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; }
-.about-list{ margin-top: 2rem; display:grid; gap: 1.1rem; }
-.about-list li{ display:flex; gap: .8rem; align-items:flex-start; }
-.about-list svg{ width:18px; height:18px; color: var(--accent); margin-top:.2rem; flex-shrink:0; }
-.about-list strong{ display:block; font-size:.85rem; color: var(--ink-faint); font-weight:600; }
-.about-side .card + .card{ margin-top: 1.2rem; }
-.about-side h3{ font-size:1rem; margin-bottom:.5rem; }
-.about-side p{ color: var(--ink-soft); font-size:.92rem; margin:0; }
-@media (max-width: 860px){ .about-grid{ grid-template-columns: 1fr; } }
-
-/* ============================================================================
-   7. TIMELINE (Education & Experience)
-   ============================================================================ */
-.timeline{ position:relative; padding-left: 2rem; }
-.timeline::before{
-  content:""; position:absolute; left: 5px; top: 6px; bottom: 6px;
-  width: 1px; background: var(--line-strong);
-}
-.timeline-item{ position:relative; padding-bottom: 2.5rem; }
-.timeline-item:last-child{ padding-bottom:0; }
-.timeline-item::before{
-  content:""; position:absolute; left: -2rem; top: 4px;
-  width: 11px; height: 11px; border-radius:50%;
-  background: var(--bg); border: 2px solid var(--accent);
-}
-.tl-head{ display:flex; flex-wrap:wrap; justify-content:space-between; gap: .5rem 1rem; align-items:baseline; }
-.tl-title{ font-size: 1.15rem; }
-.tl-org{ color: var(--primary); font-weight:600; }
-.tl-date{ font-size: .85rem; color: var(--ink-faint); white-space:nowrap; }
-.tl-loc{ font-size:.85rem; color: var(--ink-faint); }
-.tl-body{ margin-top: .6rem; color: var(--ink-soft); }
-.tl-body ul{ margin-top:.5rem; display:grid; gap:.4rem; }
-.tl-body li{ padding-left: 1.1rem; position:relative; }
-.tl-body li::before{ content:"–"; position:absolute; left:0; color: var(--ink-faint); }
-.tl-tags{ display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.8rem; }
-
-details.coursework{ margin-top:.8rem; }
-details.coursework summary{
-  cursor:pointer; font-size:.85rem; color: var(--primary); font-weight:600;
-}
-details.coursework[open] summary{ margin-bottom:.5rem; }
-details.coursework p{ font-size:.9rem; color: var(--ink-soft); margin:0; }
-
-/* ============================================================================
-   8. SKILLS
-   ============================================================================ */
-.skill-cat{ margin-bottom: 2.2rem; }
-.skill-cat:last-child{ margin-bottom:0; }
-.skill-cat h3{ font-size:1rem; margin-bottom:1rem; color: var(--ink-soft); font-weight:600; font-family: var(--font-sans); }
-.skill-badges{ display:flex; flex-wrap:wrap; gap:.55rem; }
-.skill-badge{
-  border:1px solid var(--line-strong); border-radius: var(--radius-sm);
-  padding:.45rem .85rem; font-size:.88rem; background: var(--bg-card);
-  display:flex; align-items:center; gap:.45rem;
-}
-.skill-badge .dot{ width:6px; height:6px; border-radius:50%; background: var(--accent); }
-
-/* ============================================================================
-   9. PROJECTS
-   ============================================================================ */
-.project-card{ display:flex; flex-direction:column; overflow:hidden; padding:0; }
-.project-media{ aspect-ratio: 16/9; background: var(--bg-raised); position:relative; overflow:hidden; }
-.project-media img{ width:100%; height:100%; object-fit:cover; }
-.project-media-fallback{
-  width:100%; height:100%; display:flex; align-items:center; justify-content:center;
-  color: var(--ink-faint); background:
-    repeating-linear-gradient(135deg, var(--bg-raised), var(--bg-raised) 10px, var(--bg-card) 10px, var(--bg-card) 20px);
-}
-.project-media-fallback svg{ width:34px; height:34px; }
-.project-body{ padding: 1.5rem; display:flex; flex-direction:column; flex:1; }
-.project-date{ font-size:.78rem; color: var(--ink-faint); }
-.project-title{ font-size:1.15rem; margin-top:.3rem; }
-.project-role{ font-size:.85rem; color: var(--primary); font-weight:600; margin-top:.2rem; }
-.project-desc{ margin-top:.7rem; color: var(--ink-soft); font-size:.93rem; flex:1; }
-.project-tags{ display:flex; flex-wrap:wrap; gap:.4rem; margin-top:1rem; }
-.project-links{ display:flex; gap:1rem; margin-top:1.1rem; }
-.project-links a{ font-size:.88rem; font-weight:600; display:inline-flex; align-items:center; gap:.35rem; }
-.project-links svg{ width:14px; height:14px; }
-
-/* ============================================================================
-   10. PUBLICATIONS / CERTIFICATIONS / AWARDS / VOLUNTEERING
-   ============================================================================ */
-.pub{ padding: 1.4rem 0; border-bottom: 1px solid var(--line); }
-.pub:last-child{ border-bottom:none; }
-.pub-title{ font-size:1.05rem; }
-.pub-meta{ font-size:.87rem; color: var(--ink-soft); margin-top:.35rem; }
-.pub-abstract{ font-size:.9rem; color: var(--ink-soft); margin-top:.6rem; }
-.pub-links{ margin-top:.6rem; display:flex; gap:1rem; }
-.pub-links a{ font-size:.85rem; font-weight:600; }
-
-.list-row{
-  display:flex; justify-content:space-between; align-items:flex-start;
-  gap:1rem; padding: 1.1rem 0; border-bottom:1px solid var(--line);
-}
-.list-row:last-child{ border-bottom:none; }
-.list-row-title{ font-weight:600; }
-.list-row-sub{ font-size:.87rem; color: var(--ink-soft); margin-top:.2rem; }
-.list-row-date{ font-size:.82rem; color: var(--ink-faint); white-space:nowrap; }
-
-.leadership-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap:1.2rem; }
-@media (max-width: 860px){ .leadership-grid{ grid-template-columns:1fr; } }
-
-/* ============================================================================
-   11. RESUME
-   ============================================================================ */
-.resume-card{
-  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
-  gap:1.5rem; padding: 2rem; background: var(--bg-card);
-  border:1px solid var(--line); border-radius: var(--radius-md);
-}
-.resume-card h3{ font-size:1.2rem; }
-.resume-card p{ color: var(--ink-soft); margin-top:.4rem; max-width:44ch; }
-.resume-actions{ display:flex; gap:.8rem; flex-wrap:wrap; }
-
-/* ============================================================================
-   12. CONTACT
-   ============================================================================ */
-.contact-inner{ text-align:left; }
-.contact-cta{ font-size: clamp(1.4rem,2vw + .8rem,1.9rem); font-family: var(--font-serif); max-width: 30ch; }
-.contact-sub{ color: var(--ink-soft); margin-top: .9rem; max-width: 56ch; }
-.contact-links{ display:flex; flex-wrap:wrap; gap:.9rem; margin-top: 2rem; }
-.contact-links a{
-  display:flex; align-items:center; gap:.55rem;
-  border:1px solid var(--line-strong); border-radius: var(--radius-sm);
-  padding:.7rem 1.1rem; font-weight:600; font-size:.92rem; color: var(--ink);
-}
-.contact-links a:hover{ background: var(--bg-raised); text-decoration:none; }
-.contact-links svg{ width:17px; height:17px; color: var(--primary); }
-
-/* ============================================================================
-   13. FOOTER
-   ============================================================================ */
-.site-footer{ padding: 2.5rem 0 3rem; border-top: 1px solid var(--line); }
-.site-footer .wrap{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; align-items:center; }
-.footer-note{ font-size:.85rem; color: var(--ink-faint); }
-.footer-links{ display:flex; gap:1.1rem; }
-.footer-links a{ color: var(--ink-faint); }
-
-/* Hidden helper for sections a student disables */
-[hidden]{ display:none !important; }
-</style>
-</head>
-<body>
-
-<a class="skip-link" href="#main">Skip to main content</a>
-
-<!-- ============================================================================
-     NAVIGATION
-     If you delete a section below, delete its matching link here too — or
-     leave it: the script at the bottom hides any link whose target section
-     no longer exists on the page.
-     ============================================================================ -->
-<header class="nav">
-  <div class="wrap">
-    <a class="nav-brand" href="#top">[Student]<strong>.</strong></a>
-
-    <nav aria-label="Primary">
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#about">About</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#research">Research</a></li>
-        <li><a href="#publications">Publications</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-
-    <div class="nav-actions">
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      </button>
-      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
-
-<main id="main">
-
-  <!-- ==========================================================================
-       HERO — EDIT THIS: name, program, headline, blurb, location, links, photo
-       ========================================================================== -->
-  <div id="top"></div>
-  <section class="hero">
-    <div class="wrap hero-animate">
-      <div>
-        <span class="hero-eyebrow">Personal website — Pacific States University</span>
-        <h1 class="hero-name">Hi, I'm Aashika.</h1>
-        <p class="hero-role">Bachelor in Business Administration student at Pacific States University — Aspiring Business Analyst"</p>
-        <p class="hero-blurb">I am 20 year old ambitious girl. I like traveling to places like lakes, beach and natural places. I am looking forward to be comfortable with coding and technology</p>
-
-        <ul class="hero-meta">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Los Angeles, CA
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
-            <a href="mailto:[Paashika@psu.edu]">Paashika@psu.edu</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            <a href="https://linkedin.com/in/[your-handle]" target="_blank" rel="noopener">LinkedIn</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.1 3.1 0 0 0-.9-2.4c3-.3 6-1.5 6-6.6a5.1 5.1 0 0 0-1.4-3.5 4.8 4.8 0 0 0-.1-3.5s-1.1-.4-3.6 1.3a12.3 12.3 0 0 0-6.6 0C5.9 1.1 4.8 1.5 4.8 1.5a4.8 4.8 0 0 0-.1 3.5A5.1 5.1 0 0 0 3.3 8.5c0 5.1 3 6.3 6 6.6a3.1 3.1 0 0 0-.9 2.4V21"/></svg>
-            <a href="https://github.com/[your-handle]" target="_blank" rel="noopener">GitHub</a>
-          </li>
-        </ul>
-
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#projects">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            View my work
-          </a>
-          <a class="btn btn-ghost" href="assets/resume.pdf" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
-            Download resume
-          </a>
-        </div>
-      </div>
-
-      <div class="hero-photo-wrap">
-        <!-- EDIT THIS: replace assets/profile.jpg with your photo. If the file
-             is missing, an initials placeholder is shown automatically. -->
-        <img class="hero-photo" src="" alt="Portrait of Aashika Purja"
-             onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'hero-photo-fallback',textContent:'[SN]'}))">
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       ABOUT — EDIT THIS: bio, academic background, interests, goals
-       ========================================================================== -->
-  <section class="section section--tint" id="about">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">About</span>
-        <h2 class="section-title">A little about me</h2>
-        <hr class="section-rule">
-      </div>
-
-      <div class="about-grid">
-        <div class="prose">
-          <!-- EDIT THIS: 2-4 short paragraphs. Cover your background, what
-               you're studying, and what you're looking for next. -->
-          <p>Hi, my name is Aashika, and I’m originally from Nepal. I’m pursuing a Bachelor’s in Business Administration with an emphasis in Business Analytics because I’m interested in how businesses use data and technology to make better decisions.</p>
-          <p>One experience that shaped my interest was working on programming assignments where I had to figure out why my code was not working and find a solution on my own. At first, it was frustrating, but I started to enjoy the process of testing different ideas and seeing the final result work. It made me realize that I like solving problems step by step and that programming can be a useful tool for understanding and improving how businesses work.</p>
-
-          <ul class="about-list">
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg>
-              <div><strong>Academic background</strong>"Sophomore studying Business Analytics with a focus on data-driven decision making."</div>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-              <div><strong>Career interests</strong> "Business intelligence, product analytics, and early-stage startups."</div>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.6 6.8L12 17l-6.3 3.4 1.6-6.8L2.2 9l6.9-.7z"/></svg>
-              <div><strong>Professional goals</strong>"Land an internship in analytics or operations before graduating in 2030."</div>
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
-              <div><strong>Outside the classroom</strong> "Hiking, volunteering with the campus food bank, and building small side projects."</div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="about-side">
-          <div class="card">
-            <h3>Currently</h3>
-            <p> Interning at PSU this semester, and preparing an application for the Business Analytics Fellowship.</p>
-          </div>
-          <div class="card">
-            <h3>Quick facts</h3>
-            <p>"Fluent in English, Nepali and Hindi· Based in Los Angeles· Open to remote and hybrid roles.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       EDUCATION — EDIT THIS: copy the .timeline-item block to add more entries
-       ========================================================================== -->
-  <section class="section" id="education">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Education</span>
-        <h2 class="section-title">Academic background</h2>
-        <hr class="section-rule">
-      </div>
-
-      <div class="timeline">
-
-        <!-- COPY THIS BLOCK for each degree, most recent first -->
-        <div class="timeline-item">
-          <div class="tl-head">
-            <div>
-              <div class="tl-title">Pacific States University</div>
-              <div class="tl-org">Bachelor of Business Administration in Business Analytics</div>
-            </div>
-            <div class="tl-date">2026 – 2030 (expected)</div>
-          </div>
-          <div class="tl-body">
-            <p>GPA:  4.0 (optional — remove this line if you'd rather not list it)</p>
-            <details class="coursework">
-              <summary>Relevant coursework</summary>
-              <p>Statistics for Business, Database Systems, Applied Data Visualization, Managerial Economics, Introduction to Machine Learning]</p>
-            </details>
-            <ul>
-              <li>Academic achievement "Dean's List, Fall 2026"</li>
-              <li>Achievement "Recipient of the PSU Merit Scholarship"</li>
-            </ul>
-          </div>
-        </div>
-        <!-- END COPY BLOCK -->
-
-        <div class="timeline-item">
-          <div class="tl-head">
-            <div>
-              <div class="tl-title"> Shree Laxmi Secondary School </div>
-              <div class="tl-org"> Diploma in Early Childhood Education </div>
-            </div>
-            <div class="tl-date">2022 – 2026</div>
-          </div>
-          <div class="tl-body">
-            <p></p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       SKILLS — EDIT THIS: adjust categories and badges to match your skills
-       ========================================================================== -->
-  <section class="section section--tint" id="skills">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Skills</span>
-        <h2 class="section-title">What I work with</h2>
-        <hr class="section-rule">
-      </div>
-
-      <div class="grid grid-2">
-        <div>
-          <div class="skill-cat">
-            <h3>Technical</h3>
-            <div class="skill-badges">
-              <span class="skill-badge"><span class="dot"></span>Python</span>
-              <span class="skill-badge"><span class="dot"></span>SQL</span>
-              <span class="skill-badge"><span class="dot"></span>Excel &amp; Power BI</span>
-              <span class="skill-badge"><span class="dot"></span>Tableau</span>
-              <span class="skill-badge"><span class="dot"></span>Git &amp; GitHub</span>
-              <span class="skill-badge"><span class="dot"></span>[Add your own]</span>
-            </div>
-          </div>
-          <div class="skill-cat">
-            <h3>Data &amp; Analytics</h3>
-            <div class="skill-badges">
-              <span class="skill-badge"><span class="dot"></span>Data Cleaning</span>
-              <span class="skill-badge"><span class="dot"></span>Statistical Analysis</span>
-              <span class="skill-badge"><span class="dot"></span>A/B Testing</span>
-              <span class="skill-badge"><span class="dot"></span>[Add your own]</span>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="skill-cat">
-            <h3>Professional</h3>
-            <div class="skill-badges">
-              <span class="skill-badge"><span class="dot"></span>Communication</span>
-              <span class="skill-badge"><span class="dot"></span>Project Management</span>
-              <span class="skill-badge"><span class="dot"></span>Team Leadership</span>
-              <span class="skill-badge"><span class="dot"></span>Problem Solving</span>
-              <span class="skill-badge"><span class="dot"></span>[Add your own]</span>
-            </div>
-          </div>
-          <div class="skill-cat">
-            <h3>Tools &amp; Platforms</h3>
-            <div class="skill-badges">
-              <span class="skill-badge"><span class="dot"></span>Notion</span>
-              <span class="skill-badge"><span class="dot"></span>Jira</span>
-              <span class="skill-badge"><span class="dot"></span>Google Workspace</span>
-              <span class="skill-badge"><span class="dot"></span>[Add your own]</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       PROJECTS — EDIT THIS: copy the .project-card block to add more projects
-       ========================================================================== -->
-  <section class="section" id="projects">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Projects</span>
-        <h2 class="section-title">Selected projects</h2>
-        <hr class="section-rule">
-      </div>
-
-      <div class="grid grid-3">
-
-        <!-- COPY THIS BLOCK for each project -->
-        <div class="card project-card">
-          <div class="project-media">
-            <img src="assets/project-1.jpg" alt="Screenshot of [Project Name]"
-                 onerror="this.parentElement.innerHTML='&lt;div class=&quot;project-media-fallback&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot;&gt;&lt;rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/&gt;&lt;circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/&gt;&lt;path d=&quot;M21 15l-5-5L5 21&quot;/&gt;&lt;/svg&gt;&lt;/div&gt;'">
-          </div>
-          <div class="project-body">
-            <span class="project-date">Spring 2027</span>
-            <h3 class="project-title">Green Garden</h3>
-            <span class="project-role"> "Team lead of 3"</span>
-            <p class="project-desc">Green Garden is a project designed to help people learn about and manage their gardening in a simple way. It solves the problem of making gardening information easier to access by helping users keep track of plants, care routines, and basic gardening needs.</p>
-            <div class="project-tags">
-              <span class="tag">Python</span>
-              <span class="tag">Pandas</span>
-              <span class="tag">SQL</span>
-            </div>
-            <div class="project-links">
-              <a href="https://github.com/Aashika205/Gardenletters" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.1 3.1 0 0 0-.9-2.4c3-.3 6-1.5 6-6.6a5.1 5.1 0 0 0-1.4-3.5 4.8 4.8 0 0 0-.1-3.5s-1.1-.4-3.6 1.3a12.3 12.3 0 0 0-6.6 0C5.9 1.1 4.8 1.5 4.8 1.5a4.8 4.8 0 0 0-.1 3.5A5.1 5.1 0 0 0 3.3 8.5c0 5.1 3 6.3 6 6.6a3.1 3.1 0 0 0-.9 2.4V21"/></svg>
-                Code
-              </a>
-              <a href="#" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
-                Live demo
-              </a>
-            </div>
-          </div>
-        </div>
-        <!-- END COPY BLOCK -->
-
-        <div class="card project-card">
-          <div class="project-media">
-            <img src="assets/project-2.jpg" alt="Screenshot of Green Garden"
-                 onerror="this.parentElement.innerHTML='&lt;div class=&quot;project-media-fallback&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot;&gt;&lt;rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/&gt;&lt;circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/&gt;&lt;path d=&quot;M21 15l-5-5L5 21&quot;/&gt;&lt;/svg&gt;&lt;/div&gt;'">
-          </div>
-          <div class="project-body">
-            <span class="project-date">Fall 2026</span>
-            <h3 class="project-title">Green Garden</h3>
-            <span class="project-role"> Lead </span>
-            <p class="project-desc">Green Garden was created to make gardening easier and more organized for people who want to grow and care for plants. The project focused on providing simple information about plant care and helping users keep track of their gardening needs. As a result, it created an easy-to-use way for users to stay organized and learn more about caring for their plants.</p>
-            <div class="project-tags">
-              <span class="tag">Excel</span>
-              <span class="tag">Power BI</span>
-            </div>
-            <div class="project-links">
-              <a href="https://github.com/Aashika/ Gardenlettets " target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.1 3.1 0 0 0-.9-2.4c3-.3 6-1.5 6-6.6a5.1 5.1 0 0 0-1.4-3.5 4.8 4.8 0 0 0-.1-3.5s-1.1-.4-3.6 1.3a12.3 12.3 0 0 0-6.6 0C5.9 1.1 4.8 1.5 4.8 1.5a4.8 4.8 0 0 0-.1 3.5A5.1 5.1 0 0 0 3.3 8.5c0 5.1 3 6.3 6 6.6a3.1 3.1 0 0 0-.9 2.4V21"/></svg>
-                Code
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="card project-card">
-          <div class="project-media">
-            <img src="assets/project-3.jpg" alt="Screenshot of [Green Garden]"
-                 onerror="this.parentElement.innerHTML='&lt;div class=&quot;project-media-fallback&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot;&gt;&lt;rect x=&quot;3&quot; y=&quot;3&quot; width=&quot;18&quot; height=&quot;18&quot; rx=&quot;2&quot;/&gt;&lt;circle cx=&quot;8.5&quot; cy=&quot;8.5&quot; r=&quot;1.5&quot;/&gt;&lt;path d=&quot;M21 15l-5-5L5 21&quot;/&gt;&lt;/svg&gt;&lt;/div&gt;'">
-          </div>
-          <div class="project-body">
-            <span class="project-date">[Summer 2026]</span>
-            <h3 class="project-title">[Project Name]</h3>
-            <span class="project-role">[Your role]</span>
-            <p class="project-desc">[Description of the project and outcome.]</p>
-            <div class="project-tags">
-              <span class="tag">Research</span>
-              <span class="tag">Survey Design</span>
-            </div>
-            <div class="project-links">
-              <a href="#">Details</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       EXPERIENCE — EDIT THIS: copy the .timeline-item block to add more roles
-       ========================================================================== -->
-  <section class="section section--tint" id="experience">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Experience</span>
-        <h2 class="section-title">Work experience</h2>
-        <hr class="section-rule">
-      </div>
-
-      <div class="timeline">
-
-        <!-- COPY THIS BLOCK for each role, most recent first -->
-        <div class="timeline-item">
-          <div class="tl-head">
-            <div>
-              <div class="tl-title">[Job Title]</div>
-              <div class="tl-org">Company / Organization Name· <span class="tl-loc">[City, State]</span></div>
-            </div>
-            <div class="tl-date">Jun 2026 – [Present]</div>
-          </div>
-          <div class="tl-body">
-            <ul>
-              <li>[Accomplishment framed with an outcome — "Reduced report turnaround time by 30% by automating a weekly Excel process."]</li>
-              <li>[Accomplishment — "Presented findings from a customer survey of 200+ respondents to the operations team."]</li>
-            </ul>
-            <div class="tl-tags">
-              <span class="tag">Excel</span>
-              <span class="tag">SQL</span>
-              <span class="tag">Client Communication</span>
-            </div>
-          </div>
-        </div>
-        <!-- END COPY BLOCK -->
-
-        <div class="timeline-item">
-          <div class="tl-head">
-            <div>
-              <div class="tl-title">[Job Title]</div>
-              <div class="tl-org">[Company / Organization Name] · <span class="tl-loc">[City, State]</span></div>
-            </div>
-            <div class="tl-date">[Summer 2025]</div>
-          </div>
-          <div class="tl-body">
-            <ul>
-              <li>[Accomplishment.]</li>
-              <li>[Accomplishment.]</li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       RESEARCH — OPTIONAL. Delete this whole <section> (and its nav link) if
-       you don't do research. EDIT THIS: your interests and RA experience.
-       ========================================================================== -->
-  <section class="section" id="research">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Research</span>
-        <h2 class="section-title">Research</h2>
-        <hr class="section-rule">
-        <p class="section-intro">[Optional section — remove if not applicable. Summarize your research interests in a sentence or two.]</p>
-      </div>
-
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Research interests</h3>
-          <p style="color:var(--ink-soft); margin-top:.6rem;">[e.g. Consumer behavior analytics, supply chain optimization, applied machine learning in retail.]</p>
-        </div>
-        <div class="card">
-          <h3>Research assistant experience</h3>
-          <p style="color:var(--ink-soft); margin-top:.6rem;">[e.g. "Research Assistant, PSU Department of Business Analytics, under Prof. [Name] — 2026 to present. Cleaned and analyzed survey data for a study on ___."]</p>
-        </div>
-      </div>
-
-      <div class="timeline" style="margin-top:2.5rem;">
-        <div class="timeline-item">
-          <div class="tl-head">
-            <div>
-              <div class="tl-title">[Conference / Symposium Name]</div>
-              <div class="tl-org">[Your role, e.g. "Poster presenter"]</div>
-            </div>
-            <div class="tl-date">[Mar 2027]</div>
-          </div>
-          <div class="tl-body">
-            <p>[One line about what you presented and what you found.]</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       PUBLICATIONS — OPTIONAL. Delete this section (and its nav link) if you
-       have none yet. Do not invent publications — only list real work.
-       ========================================================================== -->
-  <section class="section section--tint" id="publications">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Publications</span>
-        <h2 class="section-title">Publications</h2>
-        <hr class="section-rule">
-      </div>
-
-      <!-- COPY THIS BLOCK for each publication -->
-      <div class="pub">
-        <div class="pub-title">[Paper Title]</div>
-        <div class="pub-meta">[Author 1], [Author 2], [Author 3] — <em>[Journal or Conference Name]</em>, [Year]</div>
-        <p class="pub-abstract">[Optional one- or two-sentence abstract or summary.]</p>
-        <div class="pub-links">
-          <a href="#">DOI: [10.xxxx/xxxxx]</a>
-          <a href="#">PDF</a>
-          <a href="#">Publisher page</a>
-        </div>
-      </div>
-      <!-- END COPY BLOCK -->
-
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       CERTIFICATIONS & AWARDS — EDIT THIS or delete rows you don't need
-       ========================================================================== -->
-  <section class="section" id="certifications">
-    <div class="wrap">
-      <div class="grid grid-2">
-        <div>
-          <div class="section-head">
-            <span class="section-kicker">Certifications</span>
-            <h2 class="section-title" style="font-size:1.5rem;">Certifications</h2>
-            <hr class="section-rule">
-          </div>
-          <div class="list-row">
-            <div>
-              <div class="list-row-title">[Certification Name]</div>
-              <div class="list-row-sub">[Issuing Organization] · <a href="#">View credential</a></div>
-            </div>
-            <div class="list-row-date">[2027]</div>
-          </div>
-          <div class="list-row">
-            <div>
-              <div class="list-row-title">[Certification Name]</div>
-              <div class="list-row-sub">[Issuing Organization]</div>
-            </div>
-            <div class="list-row-date">[2026]</div>
-          </div>
-        </div>
-
-        <div>
-          <div class="section-head">
-            <span class="section-kicker">Awards</span>
-            <h2 class="section-title" style="font-size:1.5rem;">Awards &amp; achievements</h2>
-            <hr class="section-rule">
-          </div>
-          <div class="list-row">
-            <div>
-              <div class="list-row-title">[Award Name]</div>
-              <div class="list-row-sub">[Organization] — [short description]</div>
-            </div>
-            <div class="list-row-date">[2027]</div>
-          </div>
-          <div class="list-row">
-            <div>
-              <div class="list-row-title">[Award Name]</div>
-              <div class="list-row-sub">[Organization] — [short description]</div>
-            </div>
-            <div class="list-row-date">[2026]</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       VOLUNTEERING & LEADERSHIP — OPTIONAL
-       ========================================================================== -->
-  <section class="section section--tint" id="leadership">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Leadership</span>
-        <h2 class="section-title">Volunteering &amp; leadership</h2>
-        <hr class="section-rule">
-      </div>
-
-      <div class="leadership-grid">
-        <div class="card">
-          <h3>[Organization / Club Name]</h3>
-          <span class="project-role">[Your role, e.g. "Vice President"]</span>
-          <p class="project-desc">[What the organization does and what you contributed. e.g. "IEEE PSU Student Chapter — organized 4 workshops for 80+ members."]</p>
-        </div>
-        <div class="card">
-          <h3>[Volunteer Organization]</h3>
-          <span class="project-role">[Your role]</span>
-          <p class="project-desc">[Brief description of the work and its impact.]</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       RESUME
-       ========================================================================== -->
-  <section class="section" id="resume">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-kicker">Resume</span>
-        <h2 class="section-title">Resume</h2>
-        <hr class="section-rule">
-      </div>
-
-      <div class="resume-card">
-        <div>
-          <h3>[Student Name] — Resume</h3>
-          <p>Last updated [Month Year]. Includes education, experience, skills, and projects in more detail.</p>
-        </div>
-        <div class="resume-actions">
-          <a class="btn btn-primary" href="assets/resume.pdf" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
-            Download resume
-          </a>
-          <a class="btn btn-ghost" href="assets/resume.pdf" target="_blank" rel="noopener">View resume</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       CONTACT — EDIT THIS: email, links, phone (optional)
-       ========================================================================== -->
-  <section class="section section--tint" id="contact">
-    <div class="wrap contact-inner">
-      <div class="section-head">
-        <span class="section-kicker">Contact</span>
-        <h2 class="contact-cta">Interested in connecting?</h2>
-        <p class="contact-sub">Feel free to reach out regarding internships, employment, research, projects, or collaboration — I'd love to hear from you.</p>
-      </div>
-
-      <div class="contact-links">
-        <a href="mailto:[you@example.edu]">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
-          [you@example.edu]
-        </a>
-        <a href="https://linkedin.com/in/[your-handle]" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://github.com/[your-handle]" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.1 3.1 0 0 0-.9-2.4c3-.3 6-1.5 6-6.6a5.1 5.1 0 0 0-1.4-3.5 4.8 4.8 0 0 0-.1-3.5s-1.1-.4-3.6 1.3a12.3 12.3 0 0 0-6.6 0C5.9 1.1 4.8 1.5 4.8 1.5a4.8 4.8 0 0 0-.1 3.5A5.1 5.1 0 0 0 3.3 8.5c0 5.1 3 6.3 6 6.6a3.1 3.1 0 0 0-.9 2.4V21"/></svg>
-          GitHub
-        </a>
-        <!-- Optional — remove any you don't use -->
-        <a href="tel:[+1-555-555-5555]">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7 12.9 12.9 0 0 0 .7 2.8 2 2 0 0 1-.4 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.4a2 2 0 0 1 2.1-.4 12.9 12.9 0 0 0 2.8.7 2 2 0 0 1 1.7 2z"/></svg>
-          [Phone — optional]
-        </a>
-        <a href="https://scholar.google.com/citations?user=[id]" target="_blank" rel="noopener">Google Scholar</a>
-        <a href="https://orcid.org/[0000-0000-0000-0000]" target="_blank" rel="noopener">ORCID</a>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="wrap">
-    <span class="footer-note">© <span id="year"></span> [Student Name]. Personal website | Pacific States University.</span>
-    <div class="footer-links">
-      <a href="#top">Back to top</a>
-    </div>
-  </div>
-</footer>
+:root{--bg:#fff;--panel:#f5f7fb;--ink:#14213d;--mute:#5c6780;--line:#dde3ee;--navy:#12284c;--green:#17895f;--red:#c4372f;--amber:#b7791f}
+:root[data-theme=dark]{--bg:#0e1626;--panel:#16213a;--ink:#e8edf7;--mute:#9aa7c2;--line:#2a3857;--navy:#7aa2ff;--green:#34d399;--red:#f87171;--amber:#fbbf24}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+h1,h2,h3{margin:0 0 .5rem;color:var(--navy)}button,input,select,textarea{font:inherit;color:inherit}
+.btn{background:var(--navy);color:var(--bg);border:0;border-radius:8px;padding:.55rem 1rem;cursor:pointer;font-weight:600}
+.btn.ghost{background:none;color:var(--navy);border:1px solid var(--line)}.btn.danger{background:var(--red);color:#fff}.btn.sm{padding:.25rem .6rem;font-size:.85rem}
+input,select,textarea{width:100%;padding:.5rem;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}label{display:block;font-size:.85rem;color:var(--mute);margin:.5rem 0 .15rem}
+.hide{display:none!important}.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1rem}
+.big{font-size:1.7rem;font-weight:700}.inc{color:var(--green)}.exp{color:var(--red)}.mute{color:var(--mute);font-size:.9rem}
+#land{max-width:820px;margin:0 auto;padding:3rem 1.2rem}.logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.3rem;color:var(--navy)}
+#app{display:flex;min-height:100vh}nav{width:210px;background:var(--panel);border-right:1px solid var(--line);padding:1rem;display:flex;flex-direction:column;gap:.3rem;position:sticky;top:0;height:100vh}
+nav button{text-align:left;background:none;border:0;padding:.55rem .7rem;border-radius:8px;cursor:pointer;color:var(--ink)}nav button.on{background:var(--navy);color:var(--bg)}
+main{flex:1;padding:1.2rem;max-width:1100px;min-width:0}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:.45rem;border-bottom:1px solid var(--line);font-size:.92rem}
+.tw{overflow-x:auto}.bar{height:12px;background:var(--line);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green)}
+.bar.w i{background:var(--amber)}.bar.x i{background:var(--red)}.row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:end}.row>*{flex:1;min-width:130px}
+#toast{position:fixed;bottom:1rem;right:1rem;background:var(--navy);color:var(--bg);padding:.7rem 1rem;border-radius:8px;z-index:9}#toast.err{background:var(--red);color:#fff}
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);max-width:460px;width:92%}
+@media(max-width:760px){#app{flex-direction:column}nav{width:100%;height:auto;flex-direction:row;overflow-x:auto;position:static;border-right:0;border-bottom:1px solid var(--line)}nav button{white-space:nowrap}}
+</style></head><body>
+<!-- CONFIG: paste your Supabase project URL and PUBLIC publishable/anon key. Never use a service_role key here. -->
+<script>const SUPABASE_URL="https://YOUR-PROJECT.supabase.co",SUPABASE_KEY="YOUR-PUBLISHABLE-OR-ANON-KEY";</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<section id="land">
+<div class="logo"><svg width="34" height="34" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#12284c"/><path d="M8 20l5-5 4 4 7-8" stroke="#34d399" stroke-width="3" fill="none"/></svg>DailyBudget</div>
+<h1 style="font-size:2.4rem;margin-top:2rem">Know what you can spend today.</h1>
+<p>Enter your income and expenses, set a daily limit, track bills and savings goals. Your data is private to your account.</p>
+<div class="row" style="max-width:420px"><button class="btn" onclick="openAuth('up')">Sign up</button><button class="btn ghost" onclick="openAuth('in')">Log in</button></div>
+<div class="grid" style="margin-top:2rem">
+<div class="card"><h3>Daily budget</h3><p class="mute">A daily limit with warnings at 50%, 80% and 100%, and optional rollover.</p></div>
+<div class="card"><h3>Bills and goals</h3><p class="mute">Upcoming, overdue and paid bills. Savings goals with progress.</p></div>
+<div class="card"><h3>Reports</h3><p class="mute">Charts by date range and CSV export.</p></div></div>
+<div class="card" style="margin-top:1rem"><h3>Privacy and security</h3><p class="mute">Accounts use Supabase Auth. Row Level Security in the database lets each person read only their own records. We never ask for bank passwords or card numbers, and nothing is sent to AI services. This site is hosted publicly on GitHub Pages, so anyone can view the page source; your financial data is not in it.</p></div>
+</section>
+
+<div id="app" class="hide">
+<nav aria-label="Main"><div class="logo" style="margin-bottom:.8rem">DailyBudget</div></nav>
+<main id="view"></main></div>
+
+<dialog id="dlg"></dialog><div id="toast" class="hide" role="status"></div>
 
 <script>
-(function(){
-  "use strict";
+"use strict";
+const $=(s,e=document)=>e.querySelector(s);
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+const INC=["Salary","Business income","Freelance","Gifts","Refunds","Other income"];
+const EXP=["Rent or mortgage","Groceries","Restaurants","Transportation","Fuel","Utilities","Phone and internet","Healthcare","Education","Shopping","Family expenses","Insurance","Debt payments","Subscriptions","Entertainment","Other expenses"];
+const PAY=["cash","debit card","credit card","bank transfer","other"];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let U=null,S={tx:[],budgets:[],bills:[],goals:[],pref:{currency:"USD",daily_budget:0,rollover:false,theme:"light"}},page="Dashboard",charts=[],F={q:"",type:"",from:"",to:""};
+const today=()=>new Date().toLocaleDateString("en-CA");
+const money=n=>new Intl.NumberFormat(undefined,{style:"currency",currency:S.pref.currency}).format(n||0);
+const sum=a=>a.reduce((t,x)=>t+Number(x.amount),0);
+const ym=d=>d.slice(0,7);
+function toast(m,err){const t=$("#toast");t.textContent=m;t.className=err?"err":"";clearTimeout(t._t);t._t=setTimeout(()=>t.className="hide",3500)}
+const fail=(e,m)=>{console.error(e?.code||"error");toast(m||"Something went wrong. Please try again.",1)};
+function validAmt(v){const n=Number(v);return Number.isFinite(n)&&n>0&&n<1e10&&Math.round(n*100)/100===n?n:null}
+function validDate(d){return /^\d{4}-\d{2}-\d{2}$/.test(d)&&!isNaN(new Date(d))}
+function csvCell(v){v=String(v??"");if(/^[=+\-@\t\r]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"'}
+function theme(t){document.documentElement.dataset.theme=t==="dark"?"dark":"light"}
 
-  /* ---------- Theme (dark mode) ---------- */
-  var root = document.documentElement;
-  var stored = localStorage.getItem('psu-theme');
-  var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  var theme = stored || (systemDark ? 'dark' : 'light');
-  root.setAttribute('data-theme', theme);
+/* ---------- Auth ---------- */
+function openAuth(mode){const d=$("#dlg");d.innerHTML=`<h2>${mode==="up"?"Create account":"Log in"}</h2><form id="af"><label for="em">Email</label><input id="em" type="email" required autocomplete="email"><label for="pw">Password (8+ characters)</label><input id="pw" type="password" minlength="8" required autocomplete="${mode==="up"?"new-password":"current-password"}"><div class="row" style="margin-top:1rem"><button class="btn">${mode==="up"?"Sign up":"Log in"}</button><button type="button" class="btn ghost" onclick="$('#dlg').close()">Cancel</button></div></form>${mode==="in"?'<p><a href="#" id="fp">Forgot password?</a></p>':""}`;
+d.showModal();
+$("#af").onsubmit=async e=>{e.preventDefault();const email=$("#em").value.trim(),password=$("#pw").value;
+ const r=mode==="up"?await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}}):await sb.auth.signInWithPassword({email,password});
+ if(r.error)return toast(r.error.message,1);d.close();if(mode==="up"&&!r.data.session)toast("Check your email to confirm your account.");};
+const fp=$("#fp");if(fp)fp.onclick=async e=>{e.preventDefault();const email=$("#em").value.trim();if(!email)return toast("Enter your email first.",1);
+ const r=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});r.error?toast(r.error.message,1):toast("Password reset email sent.")}}
+sb.auth.onAuthStateChange(async(ev,s)=>{
+ if(ev==="PASSWORD_RECOVERY"){const p=prompt("Enter a new password (8+ characters):");if(p&&p.length>=8){const r=await sb.auth.updateUser({password:p});toast(r.error?r.error.message:"Password updated.",!!r.error)}}
+ U=s?.user||null;if(U){await load();$("#land").classList.add("hide");$("#app").classList.remove("hide");render()}else{$("#app").classList.add("hide");$("#land").classList.remove("hide");S.tx=[]}});
+async function logout(){await sb.auth.signOut();toast("Logged out.")}
 
-  var themeBtn = document.getElementById('themeToggle');
-  themeBtn.addEventListener('click', function(){
-    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('psu-theme', next);
-  });
+/* ---------- Data ---------- */
+async function load(){
+ const q=t=>sb.from(t).select("*").order("created_at",{ascending:false}).limit(5000);
+ const [a,b,c,d,p]=await Promise.all([q("transactions"),q("budgets"),q("bills"),q("savings_goals"),sb.from("preferences").select("*").maybeSingle()]);
+ if([a,b,c,d].some(r=>r.error))return fail(a.error||b.error||c.error||d.error,"Could not load your data. Check your connection.");
+ S.tx=a.data;S.budgets=b.data;S.bills=c.data;S.goals=d.data;if(p.data)S.pref={...S.pref,...p.data};theme(S.pref.theme)}
+async function save(t,row,id){const r=id?await sb.from(t).update(row).eq("id",id):await sb.from(t).insert({...row,user_id:U.id});
+ if(r.error){fail(r.error,"Could not save. Check the values and try again.");return false}toast("Saved.");await load();render();return true}
+async function del(t,id){if(!confirm("Delete this record? This cannot be undone."))return;const r=await sb.from(t).delete().eq("id",id);if(r.error)return fail(r.error);toast("Deleted.");await load();render()}
 
-  /* ---------- Mobile nav ---------- */
-  var navToggle = document.getElementById('navToggle');
-  var navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', function(){
-    var isOpen = navLinks.classList.toggle('is-open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-  });
-  navLinks.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', function(){
-      navLinks.classList.remove('is-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
+/* ---------- Calculations ---------- */
+const exps=(a=S.tx)=>a.filter(t=>t.type==="expense"),incs=(a=S.tx)=>a.filter(t=>t.type==="income");
+function dayInfo(){const t=today(),y=new Date(Date.now()-864e5).toLocaleDateString("en-CA"),lim=Number(S.pref.daily_budget)||0;
+ const spent=sum(exps().filter(x=>x.tx_date===t)),ySpent=sum(exps().filter(x=>x.tx_date===y));
+ const roll=S.pref.rollover&&lim?Math.max(0,lim-ySpent):0;const avail=lim+roll;
+ return{lim,spent,roll,avail,left:avail-spent,pct:avail?spent/avail*100:0}}
+function warn(p){return p>100?["x","Over budget"]:p>=100?["x","100% reached"]:p>=80?["w","80% used"]:p>=50?["w","50% used"]:["","On track"]}
+const barHTML=p=>{const[c]=warn(p);return`<div class="bar ${c}" role="progressbar" aria-valuenow="${Math.round(p)}" aria-valuemin="0" aria-valuemax="100"><i style="width:${Math.min(100,p)}%"></i></div>`};
+function billStatus(b){return b.status==="paid"?"paid":b.due_date<today()?"overdue":"upcoming"}
 
-  /* ---------- Auto-hide nav links for removed/missing sections ---------- */
-  navLinks.querySelectorAll('a[href^="#"]').forEach(function(a){
-    var id = a.getAttribute('href').slice(1);
-    var target = document.getElementById(id);
-    if (!target) {
-      a.closest('li').setAttribute('hidden', '');
-    }
-  });
+/* ---------- Views ---------- */
+const PAGES=["Dashboard","Transactions","Daily budget","Monthly budget","Bills","Savings goals","Reports","Settings"];
+function render(){const n=$("nav");n.innerHTML=`<div class="logo" style="margin-bottom:.8rem">DailyBudget</div>`+PAGES.map(p=>`<button class="${p===page?"on":""}" onclick="go('${p}')">${p}</button>`).join("");
+ charts.forEach(c=>c.destroy());charts=[];$("#view").innerHTML=V[page]();if(AF[page])AF[page]()}
+window.go=p=>{page=p;render()};
+const kpi=(l,v,c="")=>`<div class="card"><div class="mute">${l}</div><div class="big ${c}">${v}</div></div>`;
+const empty=m=>`<p class="mute card">${m}</p>`;
+const V={
+Dashboard(){const t=today(),m=ym(t),d=dayInfo(),mi=sum(incs().filter(x=>ym(x.tx_date)===m)),me=sum(exps().filter(x=>ym(x.tx_date)===m)),bal=sum(incs())-sum(exps()),sv=sum(S.goals.map(g=>({amount:g.saved_amount}))),
+ ub=S.bills.filter(b=>billStatus(b)!=="paid").sort((a,b)=>a.due_date.localeCompare(b.due_date)).slice(0,4);
+ return`<h1>Dashboard</h1><div class="grid">${kpi("Balance (income − expenses)",money(bal))}${kpi("Today's income",money(sum(incs().filter(x=>x.tx_date===t))),"inc")}${kpi("Today's expenses",money(d.spent),"exp")}${kpi("Daily budget left",d.avail?money(d.left):"Not set",d.left<0?"exp":"")}${kpi("Income this month",money(mi),"inc")}${kpi("Expenses this month",money(me),"exp")}${kpi("Goal savings (tracked)",money(sv),"inc")}</div>
+ <p class="mute">Balance is calculated from your entries only. Goal savings are amounts you track toward goals; they are not verified bank balances and are not subtracted from your balance.</p>
+ <div class="grid"><div class="card"><h3>Spending by category</h3><canvas id="c1"></canvas></div><div class="card"><h3>Daily spending (last 14 days)</h3><canvas id="c2"></canvas></div></div>
+ <div class="grid"><div class="card"><h3>Upcoming bills</h3>${ub.length?ub.map(b=>`<div>${esc(b.name)} — ${money(b.amount)} <span class="mute">${b.due_date} (${billStatus(b)})</span></div>`).join(""):'<p class="mute">No bills due.</p>'}</div>
+ <div class="card"><h3>Recent transactions</h3>${S.tx.slice(0,5).map(x=>`<div>${esc(x.description||x.category)} <b class="${x.type==="income"?"inc":"exp"}">${x.type==="income"?"+":"−"}${money(x.amount)}</b></div>`).join("")||'<p class="mute">Nothing yet. Add your first transaction.</p>'}</div></div>`},
+Transactions(){const rows=S.tx.filter(x=>(!F.type||x.type===F.type)&&(!F.from||x.tx_date>=F.from)&&(!F.to||x.tx_date<=F.to)&&(!F.q||(x.description+x.category+(x.notes||"")).toLowerCase().includes(F.q.toLowerCase()))).sort((a,b)=>b.tx_date.localeCompare(a.tx_date));
+ return`<h1>Transactions</h1><button class="btn" onclick="txForm()">Add transaction</button>
+ <div class="row card" style="margin:1rem 0"><div><label for="fq">Search</label><input id="fq" value="${esc(F.q)}"></div><div><label for="ft">Type</label><select id="ft"><option value="">All</option><option ${F.type==="income"?"selected":""}>income</option><option ${F.type==="expense"?"selected":""}>expense</option></select></div><div><label for="ff">From</label><input id="ff" type="date" value="${F.from}"></div><div><label for="fo">To</label><input id="fo" type="date" value="${F.to}"></div></div>
+ ${rows.length?`<div class="tw"><table><tr><th>Date</th><th>Type</th><th>Category</th><th>Description</th><th>Method</th><th>Amount</th><th></th></tr>${rows.map(x=>`<tr><td>${x.tx_date}</td><td>${x.type}${x.type==="expense"&&!x.essential?" (non-essential)":""}</td><td>${esc(x.category)}</td><td>${esc(x.description)}</td><td>${esc(x.payment_method)}</td><td class="${x.type==="income"?"inc":"exp"}">${money(x.amount)}</td><td><button class="btn ghost sm" onclick="txForm('${x.id}')">Edit</button> <button class="btn danger sm" onclick="del('transactions','${x.id}')">Delete</button></td></tr>`).join("")}</table></div>`:empty("No transactions match. Add one or change the filters.")}`},
+"Daily budget"(){const d=dayInfo(),[c,l]=warn(d.pct);return`<h1>Daily budget</h1><div class="card"><form id="db" class="row"><div><label for="dl">Daily limit</label><input id="dl" type="number" step="0.01" min="0" value="${d.lim||""}"></div><div><label for="dr">Roll over unused budget</label><select id="dr"><option value="0">No</option><option value="1" ${S.pref.rollover?"selected":""}>Yes (yesterday's unused only)</option></select></div><button class="btn">Save</button></form></div>
+ ${d.lim?`<div class="card" style="margin-top:1rem"><div class="big">${money(d.left)} left</div>${barHTML(d.pct)}<p>${Math.round(d.pct)}% used — <b>${l}</b>. Spent ${money(d.spent)} of ${money(d.avail)}${d.roll?` (limit ${money(d.lim)} + rollover ${money(d.roll)})`:""}.</p><p class="mute">Rollover = yesterday's limit − yesterday's spending, if positive; it does not accumulate beyond one day. Only today's expenses count; income never reduces spending.</p></div>`:empty("Set a daily limit to start tracking.")}`},
+"Monthly budget"(){const m=ym(today()),bs=S.budgets.filter(b=>b.month===m);return`<h1>Monthly budget — ${m}</h1><div class="card"><form id="bf" class="row"><div><label for="bc">Category</label><select id="bc">${EXP.map(c=>`<option>${c}</option>`).join("")}</select></div><div><label for="ba">Limit</label><input id="ba" type="number" step="0.01" min="0.01" required></div><button class="btn">Save limit</button></form></div>
+ ${bs.length?bs.map(b=>{const a=sum(exps().filter(x=>x.category===b.category&&ym(x.tx_date)===m)),p=a/b.amount*100;return`<div class="card" style="margin-top:.8rem"><b>${esc(b.category)}</b> <span class="mute">${warn(p)[1]}</span> <button class="btn danger sm" onclick="del('budgets','${b.id}')">Delete</button>${barHTML(p)}<div class="mute">Planned ${money(b.amount)} · Actual ${money(a)} · Remaining ${money(b.amount-a)} (${Math.round(p)}%)</div></div>`}).join(""):empty("No category budgets for this month yet.")}`},
+Bills(){const bs=[...S.bills].sort((a,b)=>a.due_date.localeCompare(b.due_date));return`<h1>Bills</h1><button class="btn" onclick="billForm()">Add bill</button>
+ <p class="mute">Marking a bill paid does not create an expense. Use “Mark paid and record expense” to create one linked expense, once.</p>
+ ${bs.length?`<div class="tw"><table><tr><th>Name</th><th>Amount</th><th>Due</th><th>Repeats</th><th>Status</th><th></th></tr>${bs.map(b=>{const s=billStatus(b);return`<tr><td>${esc(b.name)}</td><td>${money(b.amount)}</td><td>${b.due_date}</td><td>${b.recurrence}</td><td class="${s==="overdue"?"exp":s==="paid"?"inc":""}">${s}</td><td>${s!=="paid"?`<button class="btn sm" onclick="payBill('${b.id}',1)">Mark paid and record expense</button> <button class="btn ghost sm" onclick="payBill('${b.id}',0)">Mark paid only</button> `:""}<button class="btn ghost sm" onclick="billForm('${b.id}')">Edit</button> <button class="btn danger sm" onclick="del('bills','${b.id}')">Delete</button></td></tr>`}).join("")}</table></div>`:empty("No bills yet.")}`},
+"Savings goals"(){return`<h1>Savings goals</h1><button class="btn" onclick="goalForm()">Add goal</button><p class="mute">Goals track money you set aside yourself. They are not verified by any bank.</p>
+ ${S.goals.length?S.goals.map(g=>{const p=g.saved_amount/g.target_amount*100;return`<div class="card" style="margin-top:.8rem"><b>${esc(g.name)}</b> <span class="mute">${esc(g.description||"")}</span>${barHTML(Math.min(p,100))}<div class="mute">Saved ${money(g.saved_amount)} of ${money(g.target_amount)} (${Math.round(p)}%) · Remaining ${money(Math.max(0,g.target_amount-g.saved_amount))}${g.target_date?" · Target "+g.target_date:""}</div><button class="btn ghost sm" onclick="goalForm('${g.id}')">Edit</button> <button class="btn danger sm" onclick="del('savings_goals','${g.id}')">Delete</button></div>`}).join(""):empty("No goals yet.")}`},
+Reports(){return`<h1>Reports</h1><div class="row card"><div><label for="rf">From</label><input id="rf" type="date" value="${F.rf||today().slice(0,8)+"01"}"></div><div><label for="rt">To</label><input id="rt" type="date" value="${F.rt||today()}"></div><button class="btn" id="rg">Update</button><button class="btn ghost" id="rx">Export CSV</button></div>
+ <div class="grid"><div class="card"><h3>Income vs expenses</h3><canvas id="r1"></canvas></div><div class="card"><h3>By category</h3><canvas id="r2"></canvas></div><div class="card"><h3>Budget vs actual (this month)</h3><canvas id="r3"></canvas></div></div><div class="card" id="top"></div>`},
+Settings(){return`<h1>Settings</h1><div class="card"><p>Signed in as <b>${esc(U.email)}</b></p><form id="sf" class="row"><div><label for="sc">Currency</label><select id="sc">${["USD","EUR","GBP","CAD","AUD","INR","JPY"].map(c=>`<option ${S.pref.currency===c?"selected":""}>${c}</option>`).join("")}</select></div><div><label for="st">Theme</label><select id="st"><option value="light">Light</option><option value="dark" ${S.pref.theme==="dark"?"selected":""}>Dark</option></select></div><button class="btn">Save</button></form></div>
+ <div class="card" style="margin-top:1rem"><button class="btn ghost" onclick="exportCSV(S.tx)">Export all transactions (CSV)</button> <button class="btn ghost" onclick="logout()">Log out</button></div>
+ <div class="card" style="margin-top:1rem"><h3>Delete account</h3><p class="mute">Permanently deletes your account and all your data.</p><button class="btn danger" onclick="delAcct()">Delete my account</button></div>`}};
 
-  /* ---------- Scrollspy: highlight the active nav link ---------- */
-  var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
-  var links = Array.prototype.slice.call(navLinks.querySelectorAll('a[href^="#"]'));
-  if ('IntersectionObserver' in window && sections.length){
-    var observer = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        var link = links.find(function(l){ return l.getAttribute('href') === '#' + entry.target.id; });
-        if (!link) return;
-        if (entry.isIntersecting){
-          links.forEach(function(l){ l.classList.remove('active'); });
-          link.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
-    sections.forEach(function(s){ observer.observe(s); });
-  }
+/* ---------- Forms ---------- */
+function modal(html,onsub){const d=$("#dlg");d.innerHTML=html+'<div class="row" style="margin-top:1rem"><button class="btn" form="mf">Save</button><button class="btn ghost" onclick="$(\'#dlg\').close()">Cancel</button></div>';d.showModal();$("#mf").onsubmit=async e=>{e.preventDefault();if(await onsub(new FormData(e.target)))d.close()}}
+const opt=(a,v)=>a.map(x=>`<option ${x===v?"selected":""}>${x}</option>`).join("");
+window.txForm=id=>{const x=S.tx.find(t=>t.id===id)||{type:"expense",tx_date:today(),category:"Groceries",payment_method:"cash",essential:true};
+ modal(`<h2>${id?"Edit":"Add"} transaction</h2><form id="mf"><label>Type</label><select name="type" onchange="this.form.category.innerHTML=(this.value==='income'?INC:EXP).map(c=>'<option>'+c+'</option>').join('')">${opt(["expense","income"],x.type)}</select><label>Amount</label><input name="amount" type="number" step="0.01" min="0.01" required value="${x.amount||""}"><label>Date</label><input name="date" type="date" required value="${x.tx_date}"><label>Category</label><select name="category">${opt(x.type==="income"?INC:EXP,x.category)}</select><label>Description</label><input name="description" maxlength="200" value="${esc(x.description)}"><label>Payment method</label><select name="pm">${opt(PAY,x.payment_method)}</select><label>Essential?</label><select name="ess"><option value="1">Essential</option><option value="0" ${x.essential===false?"selected":""}>Non-essential</option></select><label>Notes</label><textarea name="notes" maxlength="500">${esc(x.notes)}</textarea></form>`,async f=>{
+  const a=validAmt(f.get("amount")),d=f.get("date");if(!a)return toast("Enter a valid positive amount (max 2 decimals).",1);if(!validDate(d))return toast("Enter a valid date.",1);
+  return save("transactions",{type:f.get("type"),amount:a,currency:S.pref.currency,tx_date:d,category:f.get("category"),description:f.get("description").trim(),payment_method:f.get("pm"),essential:f.get("ess")==="1",notes:f.get("notes").trim()},id)})};
+window.billForm=id=>{const b=S.bills.find(x=>x.id===id)||{name:"",due_date:today(),recurrence:"monthly",status:"unpaid"};
+ modal(`<h2>${id?"Edit":"Add"} bill</h2><form id="mf"><label>Name</label><input name="name" required maxlength="100" value="${esc(b.name)}"><label>Amount</label><input name="amount" type="number" step="0.01" min="0.01" required value="${b.amount||""}"><label>Due date</label><input name="due" type="date" required value="${b.due_date}"><label>Repeats</label><select name="rec">${opt(["none","weekly","monthly","annually"],b.recurrence)}</select><label>Notes</label><textarea name="notes" maxlength="500">${esc(b.notes)}</textarea></form>`,f=>{
+  const a=validAmt(f.get("amount"));if(!a)return toast("Enter a valid amount.",1);if(!validDate(f.get("due")))return toast("Enter a valid date.",1);
+  return save("bills",{name:f.get("name").trim(),amount:a,due_date:f.get("due"),recurrence:f.get("rec"),notes:f.get("notes").trim()},id)})};
+window.goalForm=id=>{const g=S.goals.find(x=>x.id===id)||{name:"",saved_amount:0};
+ modal(`<h2>${id?"Edit":"Add"} savings goal</h2><form id="mf"><label>Name (e.g. Emergency fund)</label><input name="name" required maxlength="100" value="${esc(g.name)}"><label>Target amount</label><input name="t" type="number" step="0.01" min="0.01" required value="${g.target_amount||""}"><label>Saved so far</label><input name="s" type="number" step="0.01" min="0" required value="${g.saved_amount}"><label>Target date (optional)</label><input name="d" type="date" value="${g.target_date||""}"><label>Description</label><input name="desc" maxlength="200" value="${esc(g.description)}"></form>`,f=>{
+  const t=validAmt(f.get("t")),s=Number(f.get("s"));if(!t||!Number.isFinite(s)||s<0)return toast("Enter valid amounts.",1);
+  return save("savings_goals",{name:f.get("name").trim(),target_amount:t,saved_amount:s,target_date:f.get("d")||null,description:f.get("desc").trim()},id)})};
+window.payBill=async(id,rec)=>{const b=S.bills.find(x=>x.id===id);let tid=null;
+ if(rec){const r=await sb.from("transactions").insert({user_id:U.id,type:"expense",amount:b.amount,currency:S.pref.currency,tx_date:today(),category:"Other expenses",description:b.name,payment_method:"other",essential:true}).select("id").single();if(r.error)return fail(r.error);tid=r.data.id}
+ let due=b.due_date,st="paid";if(b.recurrence!=="none"){const d=new Date(due+"T00:00:00");b.recurrence==="weekly"?d.setDate(d.getDate()+7):b.recurrence==="monthly"?d.setMonth(d.getMonth()+1):d.setFullYear(d.getFullYear()+1);due=d.toLocaleDateString("en-CA");st="unpaid"}
+ await save("bills",{due_date:due,status:st,last_paid_transaction_id:tid},id)};
 
-  /* ---------- Footer year ---------- */
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-})();
-</script>
-
-</body>
-</html>
+/* ---------- After-render hooks, charts, export ---------- */
+const mk=(id,cfg)=>{const e=$(id);if(e)charts.push(new Chart(e,cfg))};
+function byCat(list){const m={};exps(list).forEach(x=>m[x.category]=(m[x.category]||0)+Number(x.amount));return Object.entries(m).sort((a,b)=>b[1]-a[1])}
+const AF={
+Dashboard(){const m=ym(today()),c=byCat(S.tx.filter(x=>ym(x.tx_date)===m));mk("#c1",{type:"doughnut",data:{labels:c.map(x=>x[0]),datasets:[{data:c.map(x=>x[1])}]}});
+ const days=[...Array(14)].map((_,i)=>new Date(Date.now()-(13-i)*864e5).toLocaleDateString("en-CA"));
+ mk("#c2",{type:"line",data:{labels:days.map(d=>d.slice(5)),datasets:[{label:"Spent",data:days.map(d=>sum(exps().filter(x=>x.tx_date===d))),borderColor:"#17895f"}]}})},
+Transactions(){const bind=(id,k)=>$(id).oninput=e=>{F[k]=e.target.value;const p=e.target.selectionStart;render();const n=$(id);n.focus();try{n.setSelectionRange(p,p)}catch{}};bind("#fq","q");bind("#ft","type");bind("#ff","from");bind("#fo","to")},
+"Daily budget"(){$("#db").onsubmit=async e=>{e.preventDefault();const v=Number($("#dl").value||0);if(!Number.isFinite(v)||v<0)return toast("Enter a valid limit.",1);await savePref({daily_budget:v,rollover:$("#dr").value==="1"})};
+ const d=dayInfo();if(d.lim){const p=d.pct;if(p>100)toast("You are over today's budget.",1);else if(p>=100)toast("You have reached today's budget.");else if(p>=80)toast("80% of today's budget is used.");else if(p>=50)toast("50% of today's budget is used.")}},
+"Monthly budget"(){$("#bf").onsubmit=async e=>{e.preventDefault();const a=validAmt($("#ba").value);if(!a)return toast("Enter a valid limit.",1);const m=ym(today()),c=$("#bc").value,ex=S.budgets.find(b=>b.month===m&&b.category===c);await save("budgets",{category:c,month:m,amount:a},ex?.id)}},
+Reports(){const draw=()=>{F.rf=$("#rf").value;F.rt=$("#rt").value;if(!validDate(F.rf)||!validDate(F.rt)||F.rf>F.rt)return toast("Choose a valid date range.",1);charts.forEach(c=>c.destroy());charts=[];
+  const L=S.tx.filter(x=>x.tx_date>=F.rf&&x.tx_date<=F.rt),c=byCat(L),m=ym(today());
+  mk("#r1",{type:"bar",data:{labels:["Income","Expenses"],datasets:[{data:[sum(incs(L)),sum(exps(L))],backgroundColor:["#17895f","#c4372f"]}]},options:{plugins:{legend:{display:false}}}});
+  mk("#r2",{type:"pie",data:{labels:c.map(x=>x[0]),datasets:[{data:c.map(x=>x[1])}]}});
+  const bs=S.budgets.filter(b=>b.month===m);mk("#r3",{type:"bar",data:{labels:bs.map(b=>b.category),datasets:[{label:"Budget",data:bs.map(b=>b.amount)},{label:"Actual",data:bs.map(b=>sum(exps().filter(x=>x.category===b.category&&ym(x.tx_date)===m)))}]}});
+  $("#top").innerHTML="<h3>Highest spending categories</h3>"+(c.slice(0,5).map(x=>`<div>${esc(x[0])}: ${money(x[1])}</div>`).join("")||'<p class="mute">No expenses in this range.</p>')};
+ $("#rg").onclick=draw;$("#rx").onclick=()=>exportCSV(S.tx.filter(x=>x.tx_date>=$("#rf").value&&x.tx_date<=$("#rt").value));draw()},
+Settings(){$("#sf").onsubmit=async e=>{e.preventDefault();await savePref({currency:$("#sc").value,theme:$("#st").value})}}};
+async function savePref(p){const r=await sb.from("preferences").upsert({user_id:U.id,...S.pref,...p});if(r.error)return fail(r.error);S.pref={...S.pref,...p};theme(S.pref.theme);toast("Saved.");render()}
+function exportCSV(list){const h=["date","type","category","description","amount","currency","payment_method","essential","notes"];
+ const csv=[h.join(",")].concat(list.map(x=>[x.tx_date,x.type,x.category,x.description,x.amount,x.currency,x.payment_method,x.essential,x.notes].map(csvCell).join(","))).join("\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="dailybudget-"+today()+".csv";a.click();URL.revokeObjectURL(a.href)}
+async function delAcct(){if(!confirm("Delete your account and ALL data permanently?"))return;if(prompt('Type DELETE to confirm')!=="DELETE")return;
+ const r=await sb.rpc("delete_my_account");if(r.error)return fail(r.error,"Could not delete account.");await sb.auth.signOut();toast("Account deleted.")}
+</script></body></html>
